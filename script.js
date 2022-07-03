@@ -26,29 +26,30 @@ const choices = {
   spock: { name: "Spock", defeats: ["scissors", "rock"] },
 };
 
-let computerChoice = '';
+let playerScoreNumber = 0;
+let computerScoreNumber = 0;
+let computerChoice = "";
 
 // Reset all 'selected icons
 function resetSelected() {
   allGameIcons.forEach((icon) => {
-    icon.classList.remove('selected');
+    icon.classList.remove("selected");
   });
 }
 
 // Random computer Choice
-
 function computerRandomChoice() {
   const computerChoiceNumber = Math.random();
-  if(computerChoiceNumber < 0.2){
-    computerChoice = 'rock';
+  if (computerChoiceNumber < 0.2) {
+    computerChoice = "rock";
   } else if (computerChoiceNumber <= 0.4) {
-    computerChoice = 'paper';
+    computerChoice = "paper";
   } else if (computerChoiceNumber <= 0.6) {
-    computerChoice = 'scissors';
+    computerChoice = "scissors";
   } else if (computerChoiceNumber <= 0.8) {
-    computerChoice = 'lizard';
+    computerChoice = "lizard";
   } else if (computerChoiceNumber <= 1) {
-    computerChoice = 'spock';
+    computerChoice = "spock";
   }
 }
 
@@ -80,16 +81,41 @@ function displayComputerChoice() {
   }
 }
 
+// Check results, increase scoress, update resultText
+function updateScore(playerChoice) {
+  console.log(playerChoice, computerChoice);
+  if (playerChoice === computerChoice) {
+    resultText.textContent = "It's a tie.";
+  } else {
+    const choice = choices[playerChoice];
+    console.log(
+      choice,
+      computerChoice,
+      choice.defeats.includes(computerChoice)
+    );
+    if (choice.defeats.includes(computerChoice)) {
+      resultText.textContent = "You Won!";
+      playerScoreNumber++;
+      playerScoreEL.textContent = playerScoreNumber;
+    } else {
+      resultText.textContent = "You Lost!";
+      computerScoreNumber++;
+      computerScoreEL.textContent = computerScoreNumber;
+    }
+  }
+}
+
 //  Call functions to process turn
-function checkResult () {
+function checkResult(playerChoice) {
   resetSelected();
   computerRandomChoice();
   displayComputerChoice();
+  updateScore(playerChoice);
 }
 
 // Passing player selection value and styling icons
 function select(playerChoice) {
-  checkResult();
+  checkResult(playerChoice);
   // Add 'selected' styling & playerChoice
   switch (playerChoice) {
     case "rock":
