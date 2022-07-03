@@ -8,13 +8,13 @@ const playerRock = document.getElementById("playerRock");
 const playerPaper = document.getElementById("playerPaper");
 const playerScissors = document.getElementById("playerScissors");
 const playerLizard = document.getElementById("playerLizard");
-const playerSpok = document.getElementById("playerSpok");
+const playerspock = document.getElementById("playerspock");
 
 const computerRock = document.getElementById("computerRock");
 const computerPaper = document.getElementById("computerPaper");
 const computerScissors = document.getElementById("computerScissors");
 const computerLizard = document.getElementById("computerLizard");
-const computerSpok = document.getElementById("computerSpok");
+const computerspock = document.getElementById("computerspock");
 
 const allGameIcons = document.querySelectorAll(".far");
 
@@ -26,16 +26,70 @@ const choices = {
   spock: { name: "Spock", defeats: ["scissors", "rock"] },
 };
 
+let computerChoice = '';
+
 // Reset all 'selected icons
 function resetSelected() {
   allGameIcons.forEach((icon) => {
     icon.classList.remove('selected');
   });
 }
- 
+
+// Random computer Choice
+
+function computerRandomChoice() {
+  const computerChoiceNumber = Math.random();
+  if(computerChoiceNumber < 0.2){
+    computerChoice = 'rock';
+  } else if (computerChoiceNumber <= 0.4) {
+    computerChoice = 'paper';
+  } else if (computerChoiceNumber <= 0.6) {
+    computerChoice = 'scissors';
+  } else if (computerChoiceNumber <= 0.8) {
+    computerChoice = 'lizard';
+  } else if (computerChoiceNumber <= 1) {
+    computerChoice = 'spock';
+  }
+}
+
+// Add 'selected' styling and computerChoise
+function displayComputerChoice() {
+  switch (computerChoice) {
+    case "rock":
+      computerRock.classList.add("selected");
+      computerChoiceEL.textContent = " --- Rock";
+      break;
+    case "paper":
+      computerPaper.classList.add("selected");
+      computerChoiceEL.textContent = " --- Paper";
+      break;
+    case "scissors":
+      computerScissors.classList.add("selected");
+      computerChoiceEL.textContent = " --- Scissors";
+      break;
+    case "lizard":
+      computerLizard.classList.add("selected");
+      computerChoiceEL.textContent = " --- Lizard";
+      break;
+    case "spock":
+      computerspock.classList.add("selected");
+      computerChoiceEL.textContent = " --- spock";
+      break;
+    default:
+      break;
+  }
+}
+
+//  Call functions to process turn
+function checkResult () {
+  resetSelected();
+  computerRandomChoice();
+  displayComputerChoice();
+}
+
 // Passing player selection value and styling icons
 function select(playerChoice) {
-  resetSelected();
+  checkResult();
   // Add 'selected' styling & playerChoice
   switch (playerChoice) {
     case "rock":
@@ -54,9 +108,9 @@ function select(playerChoice) {
       playerLizard.classList.add("selected");
       playerChoiceEL.textContent = " --- Lizard";
       break;
-    case "spok":
-      playerSpok.classList.add("selected");
-      playerChoiceEL.textContent = " --- Spok";
+    case "spock":
+      playerspock.classList.add("selected");
+      playerChoiceEL.textContent = " --- spock";
       break;
     default:
       break;
